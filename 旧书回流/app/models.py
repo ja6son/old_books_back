@@ -18,6 +18,7 @@ class Book(db.Model):
     __tablename__ = 'book'
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
     book_name = db.Column(db.String(50),nullable = False)
+    fee = db.Column(db.String(20),default = '0.00')
     content = db.Column(db.Text,nullable = False)
     book_image = db.Column(db.String(128),default = "default_book_image.jpg")
     book_image_id = db.Column(db.Integer,default = 1)
