@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}注册{% endblock %}
+{% block head %}{% endblock %}
+{% block body %}
+<form action="" method="POST">
+<input type="text" name="user_name" placeholder="请输入用户名"><br><br>
+<input type="password" name="password" placeholder="请输入密码"><br><br>
+<input type="password" name="passwords" placeholder="请确认密码"><br><br>
+<input type="text" name="telephone" placeholder="请输入手机号"><br><br>
+<input type="text" name="qq" placeholder="请输入QQ号"><br><br>
+    <input type="radio" name="sex" value="男">男 &emsp;
+    <input type="radio" name="sex" value="女">女 &emsp;
+    <input type="radio" name="sex" value="保密" checked>保密 <br><br>
+<input type="text" name="sign" placeholder="个性签名"><br><br>
+<button type="submit">确认</button>
+</form>
+{% endblock %}
