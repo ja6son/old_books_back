@@ -1,5 +1,5 @@
 from flask import Flask,render_template,request,redirect,url_for,flash,session
-import config
+import config,os
 from exts import db
 from models import User,Book,Comment
 
@@ -70,12 +70,41 @@ def book():
         return render_template('book.html')
     else:
         book_name = request.form.get('book_name')
+        book_type = request.form.get('book_type')
         fee = request.form.get('fee')
         content = request.form.get('content')
         book_img = request.files.get('book_img')
-        if book_name and fee and content and book_img:
-            book = Book(book_name,fee,content)
-            #图书种类，要添加，文件名想把发搞
+        if book_name and fee and content and book_img and book_type:
+            user_id = session.get('user_id')
+            user = User.query.filter(User.id == user_id).first()
+            book = Book(book_name,book_type,fee,content)
+            book_image = user.user_name + '_' + book_name + '.jpg'
+            book.book_image = book_image
+            UPLOAD_FOLDER = r'C:\mygit\旧书回流\app\static\images'
+            book_img.save(os.path.join( UPLOAD_FOLDER , book_image))
+            book.user = user
+            db.session.add(book)
+            db.session.commit()
+            return redirect(url_for('index'))
+        else :
+            flash('填写不完整，请重新填写')
+            return redirect(url_for('book'))
+
+@app.route('/my_center/',methods = ['GET','POST'])
+def my_center():
+    if request.method == 'GET':
+        return render_template('my_center.html')
+    else :
+        user_id = session.get('user_id')
+        user = User.query.filter(User.id == user_id).first()
+        user.user_name = request.form.get('user_name')
+        user.telephone = request.form.get('telephone')
+        user.qq = request.form.get('qq')
+        user.sex = request.form.get('sex')
+        user.sign = request.form.get('sign')
+        db.session.commit()
+        flash('修改成功')
+        return redirect(url_for('my_center'))
 
 @app.context_processor
 def my_context():

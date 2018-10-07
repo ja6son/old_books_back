@@ -26,15 +26,16 @@ class Book(db.Model):
     __tablename__ = 'book'
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
     book_name = db.Column(db.String(50),nullable = False)
+    book_type =db.Column(db.String(10),nullable = False)
     fee = db.Column(db.String(20),default = '0.00')
     content = db.Column(db.Text,nullable = False)
     book_image = db.Column(db.String(128),default = "default_book_image.jpg")
-    book_image_id = db.Column(db.Integer,default = 1)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     comments = db.relationship('Comment',backref = 'book')
 
-    def __init__(self,book_name,fee,content):
+    def __init__(self,book_name,book_type,fee,content):
         self.book_name = book_name
+        self.book_type = book_type
         self.fee = fee
         self.content = content
 

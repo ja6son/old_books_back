@@ -11,17 +11,35 @@
             <label for="" class="control-label">书名:</label>
             <input type="text" name="book_name" placeholder="请输入书名" class="form-control">
         </div>
+        <div class="col-md-12 form-group">
+            <label>类型</label><br>
+            <label class="radio-inline">
+                <input type="radio" name="book_type" value="人文社科">人文社科
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="book_type" value="自然科学">自然科学
+            </label>
+            <label class="radio-inline">
+                    <input type="radio" name="book_type" value="计算机">计算机
+            </label> 
+            <label class="radio-inline">
+                    <input type="radio" name="book_type" value="教材" checked>教材
+            </label>  
+        </div>    
         <div class="form-group has-success">
             <label for="" class="control-label">价格:</label>
             <input type="text" name="fee" placeholder="请输入价格" class="form-control">
         </div>
-        <textarea name="content" cols="30" rows="10" class="form-control has-success" placeholder="添加描述"></textarea>
+        <textarea name="content" cols="30" rows="10" class="form-control has-success form-group" placeholder="添加描述"></textarea>
         <div class="form-group">
             <label>照片</label>
             <input type="file" accept="image/*" name="book_img">
             <p class="help-block">添加图书照片</p>
-        </div>       
+        </div>           
         <button type="submit" class="btn btn-primary btn-block">发布</button>
     </form>
+    {% for message in get_flashed_messages() %}
+    <h3 class="text-center" ><mark style="color:red">{{ message }}</mark></h3>
+    {% endfor %}
 </div>
 {% endblock %}
