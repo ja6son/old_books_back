@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}注册{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/index.css') }}">
+{% endblock %}
+{% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <img src="{{ url_for('static',filename='images/index.jpg') }}" alt="">
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        <img src="{{ url_for('static',filename='images/index1.jpg') }}" alt="">
+    </div>
+    <div class="col-md-4">
+        <img src="{{ url_for('static',filename='images/index2.jpg') }}" alt="">
+    </div>
+    <div class="col-md-4">
+        <img src="{{ url_for('static',filename='images/index3.jpg') }}" alt="">
+    </div>
+</div>
+{% endblock %}

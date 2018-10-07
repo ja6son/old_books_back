@@ -1,4 +1,4 @@
-from flask import Flask,render_template,request,redirect,url_for,flash
+from flask import Flask,render_template,request,redirect,url_for,flash,session
 import config
 from exts import db
 from models import User,Book,Comment
@@ -11,14 +11,27 @@ db.init_app(app)
 @app.route('/')
 @app.route('/index/')
 def index():
-    return render_template('base.html')
+    return render_template('index.html')
 
 @app.route('/login/',methods = ['POST','GET'])  
 def login():
     if request.method == 'GET':
         return render_template('login.html')
     else :
-        pass
+        user_name = request.form.get('user_name')
+        password = request.form.get('password')
+        user = User.query.filter(User.user_name == user_name).first()
+        if user:
+            if user.password == password :
+                session['user_id'] = user.id
+                return redirect(url_for('index'))
+            else :
+                flash('密码错误')
+                return redirect(url_for('login'))
+        else :
+            flash('无此用户')
+            return redirect(url_for('login'))
+
 
 @app.route('/regist/',methods = ['POST','GET'])
 def regist():
@@ -43,7 +56,23 @@ def regist():
                         telephone = telephone,qq = qq,sex = sex ,sign = sign)
             db.session.add(user)
             db.session.commit()
-            return 'OK'
+            return redirect(url_for('login'))
+
+@app.route('/logout/')
+def logout():
+    session.pop('user_id')
+    return redirect(url_for('login'))
+
+@app.context_processor
+def my_context():
+    user_id = session.get('user_id')
+    if user_id :
+        user = User.query.filter(User.id == user_id).first()
+        return {'user':user}
+    else :
+        return {}
+
+
 
 if __name__ == '__main__':
     app.run()
