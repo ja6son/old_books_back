@@ -14,6 +14,14 @@ class User(db.Model):
     books = db.relationship('Book',backref = 'user')
     comments = db.relationship('Comment',backref = 'user')
 
+    def __init__(self,user_name,password,telephone,qq,sex,sign):
+        self.user_name = user_name
+        self.password = password
+        self.telephone = telephone
+        self.qq = qq
+        self.sex = sex
+        self.sign = sign
+
 class Book(db.Model):
     __tablename__ = 'book'
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
@@ -25,9 +33,18 @@ class Book(db.Model):
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     comments = db.relationship('Comment',backref = 'book')
 
+    def __init__(self,book_name,fee,content):
+        self.book_name = book_name
+        self.fee = fee
+        self.content = content
+
+
 class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer,primary_key = True,autoincrement = True)
     content = db.Column(db.Text,nullable = False)
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
     book_id = db.Column(db.Integer,db.ForeignKey('book.id'))
+
+    def __init__(self,content):
+        self.content = content

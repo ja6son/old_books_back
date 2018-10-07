@@ -10,3 +10,6 @@ body{
     background: url(back3.jpg);
     background-attachment:fixed;
 }
+.avatar{
+    width: 40px;
+}

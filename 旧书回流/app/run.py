@@ -52,8 +52,8 @@ def regist():
             sex = request.form.get('sex')
             qq = request.form.get('qq')
             sign = request.form.get('sign')
-            user = User(user_name = user_name,password = password,
-                        telephone = telephone,qq = qq,sex = sex ,sign = sign)
+            user = User(user_name,password,
+                        telephone,qq,sex ,sign)
             db.session.add(user)
             db.session.commit()
             return redirect(url_for('login'))
@@ -62,6 +62,20 @@ def regist():
 def logout():
     session.pop('user_id')
     return redirect(url_for('login'))
+
+
+@app.route('/book/',methods = ['POST','GET'])
+def book():
+    if request.method == 'GET':
+        return render_template('book.html')
+    else:
+        book_name = request.form.get('book_name')
+        fee = request.form.get('fee')
+        content = request.form.get('content')
+        book_img = request.files.get('book_img')
+        if book_name and fee and content and book_img:
+            book = Book(book_name,fee,content)
+            #图书种类，要添加，文件名想把发搞
 
 @app.context_processor
 def my_context():

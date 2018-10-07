@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}发布图书{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/book.css') }}">
+{% endblock %}
+{% block body %}
+<h1 class="text-center">发布图书</h1>
+<div class="col-md-4 col-md-offset-4 margin_my">
+    <form action="" method="POST" enctype="multipart/form-data">
+        <div class="form-group has-success">
+            <label for="" class="control-label">书名:</label>
+            <input type="text" name="book_name" placeholder="请输入书名" class="form-control">
+        </div>
+        <div class="form-group has-success">
+            <label for="" class="control-label">价格:</label>
+            <input type="text" name="fee" placeholder="请输入价格" class="form-control">
+        </div>
+        <textarea name="content" cols="30" rows="10" class="form-control has-success" placeholder="添加描述"></textarea>
+        <div class="form-group">
+            <label>照片</label>
+            <input type="file" accept="image/*" name="book_img">
+            <p class="help-block">添加图书照片</p>
+        </div>       
+        <button type="submit" class="btn btn-primary btn-block">发布</button>
+    </form>
+</div>
+{% endblock %}
