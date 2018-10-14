@@ -80,7 +80,7 @@ def book():
             book = Book(book_name,book_type,fee,content)
             book_image = user.user_name + '_' + book_name + '.jpg'
             book.book_image = book_image
-            UPLOAD_FOLDER = r'C:\mygit\旧书回流\app\static\images'
+            UPLOAD_FOLDER = r'C:\mygit\book_back\app\static\images'
             book_img.save(os.path.join( UPLOAD_FOLDER , book_image))
             book.user = user
             db.session.add(book)
