@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "${workspaceFolder}\\flask\\Scripts\\python.exe"
+    "python.pythonPath": "${workspaceFolder}\\flask\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": false
 }
