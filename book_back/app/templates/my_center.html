@@ -9,12 +9,11 @@
     <div class="col-md-2">
         <h3 class="bg-primary text-center">基本信息</h3>
         <ul class="list-unstyled text-center">
-            <li><a href="#" class="text-danger"><h4>修改密码</h4></a></li>
-            <li><a href="#" class="text-danger"><h4>更改头像</h4></a></li>
+            <li><a href="{{ url_for('password') }}" class="text-danger"><h4>修改密码</h4></a></li>
         </ul>
     </div>
     <div class="col-md-6 change_mar">
-        <form action="" method="POST" class="form-horizontal">
+        <form action="" method="POST" enctype="multipart/form-data" class="form-horizontal">
             <div class="form-group has-success">
                 <label for="" class="col-sm-3 control-label">用户名:</label>
                 <div class="col-sm-9">
@@ -49,7 +48,13 @@
                 <div class="col-sm-9">
                         <input type="text" name="sign" placeholder="个性签名" class="form-control" value="{{ user.sign }}">
                 </div>
-            </div> 
+            </div>
+            <div class="form-group has-success">
+                <label for="" class="col-sm-3 control-label">更换头像:</label>
+                <div class="col-sm-9">
+                    <input type="file" accept="image/*" name="avatar">
+                </div>
+            </div>  
             <div class="col-sm-9 col-sm-offset-3">
                 <button type="submit" class="btn btn-primary btn-block">修改</button> 
             </div>     

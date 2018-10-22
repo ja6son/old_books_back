@@ -112,6 +112,12 @@ def my_center():
         user.qq = request.form.get('qq')
         user.sex = request.form.get('sex')
         user.sign = request.form.get('sign')
+        avatar = request.files.get('avatar')
+        ava_name = 'ava_' + user.user_name + str(user.avatar_id) + '.jpg'
+        user.avatar = ava_name
+        user.avatar_id = user.avatar_id + 1
+        UPLOAD_FOLDER = r'C:\mygit\book_back\app\static\images'
+        avatar.save(os.path.join( UPLOAD_FOLDER , ava_name)) 
         db.session.commit()
         flash('修改成功')
         return redirect(url_for('my_center'))
@@ -122,9 +128,33 @@ def password():
     if request.method == 'GET':
         return render_template('password.html')
     else :
-        pass
+        user_id = session.get('user_id')
+        user = User.query.filter(User.id == user_id).first()
+        old_pass = request.form.get('old_pass')
+        if old_pass == user.password:
+            new_pass = request.form.get('new_pass')
+            new_pass2 = request.form.get('new_pass2')
+            if new_pass == new_pass2:
+                user.password = new_pass
+                db.session.commit()
+                flash('修改成功')
+                return redirect(url_for('password'))
+            else :
+                flash('两次新密码不同')
+                return redirect(url_for('password'))
+        else:
+            flash('密码错误')
+            return redirect(url_for('password'))
 
+@app.route('/category/<name>/<page>')
+def category(name,page):
+    page = request.args.get('page', 1)
+    per_page = 9
+    pagination = Book.query.filter(Book.book_type == name).paginate(page, per_page = per_page)
+    books = pagination.items
+    return render_template('cate.html', books = books, pagination = pagination ,book_name = name)
 
+#传入用户对象
 @app.context_processor
 def my_context():
     user_id = session.get('user_id')

@@ -31,13 +31,13 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">图书种类<span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">人文社科</a></li>
+                  <li><a href="{{ url_for('category', name='人文社科', page=1) }}">人文社科</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">自然科学</a></li>
+                  <li><a href="{{ url_for('category', name='自然科学', page=1) }}">自然科学</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">计算机</a></li>
+                  <li><a href="{{ url_for('category', name='计算机', page=1) }}">计算机</a></li>
                   <li role="separator" class="divider"></li>
-                  <li><a href="#">教材</a></li>
+                  <li><a href="{{ url_for('category', name='教材', page=1) }}">教材</a></li>
                 </ul>
               </li>
               <li><a href="{{ url_for('book') }}">发布图书</a></li>
@@ -58,7 +58,7 @@
                   <ul class="dropdown-menu">
                     <li><a href="{{ url_for('my_center') }}">个人中心</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a href="#">修改密码</a></li>
+                    <li><a href="{{ url_for('password') }}">修改密码</a></li>
                   </ul>
                 </li>
                 <img src="{{ '/static/images/'+user.avatar }}" class="avatar img-circle">  
