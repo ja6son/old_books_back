@@ -1,7 +1,8 @@
-from flask import Flask,render_template,request,redirect,url_for,flash,session
 import config,os
+from flask import Flask,render_template,request,redirect,url_for,flash,session
 from exts import db
 from models import User,Book,Comment
+from decorators import login_judge
 
 
 app = Flask(__name__)
@@ -13,6 +14,7 @@ db.init_app(app)
 def index():
     return render_template('index.html')
 
+#登录
 @app.route('/login/',methods = ['POST','GET'])  
 def login():
     if request.method == 'GET':
@@ -32,7 +34,7 @@ def login():
             flash('无此用户')
             return redirect(url_for('login'))
 
-
+#注册
 @app.route('/regist/',methods = ['POST','GET'])
 def regist():
     if request.method == 'GET':
@@ -52,19 +54,25 @@ def regist():
             sex = request.form.get('sex')
             qq = request.form.get('qq')
             sign = request.form.get('sign')
-            user = User(user_name,password,
-                        telephone,qq,sex ,sign)
-            db.session.add(user)
-            db.session.commit()
-            return redirect(url_for('login'))
+            if telephone and sex and qq and sign :
+                user = User(user_name= user_name, password=password,
+                            telephone=telephone, qq=qq, sex=sex, sign=sign)
+                db.session.add(user)
+                db.session.commit()
+                return redirect(url_for('login'))
+            else :
+                flash('请将信息填写完整')
+                return redirect(url_for('regist'))
 
+#注销
 @app.route('/logout/')
 def logout():
     session.pop('user_id')
     return redirect(url_for('login'))
 
-
+#发布新书
 @app.route('/book/',methods = ['POST','GET'])
+@login_judge
 def book():
     if request.method == 'GET':
         return render_template('book.html')
@@ -77,11 +85,12 @@ def book():
         if book_name and fee and content and book_img and book_type:
             user_id = session.get('user_id')
             user = User.query.filter(User.id == user_id).first()
-            book = Book(book_name,book_type,fee,content)
-            book_image = user.user_name + '_' + book_name + '.jpg'
+            book = Book(book_name=book_name,book_type=book_type, 
+                            fee=fee,content=content)  #生成新对象
+            book_image = user.user_name + '_' + book_name + '.jpg' #图书照片图片
             book.book_image = book_image
             UPLOAD_FOLDER = r'C:\mygit\book_back\app\static\images'
-            book_img.save(os.path.join( UPLOAD_FOLDER , book_image))
+            book_img.save(os.path.join( UPLOAD_FOLDER , book_image)) 
             book.user = user
             db.session.add(book)
             db.session.commit()
@@ -90,6 +99,7 @@ def book():
             flash('填写不完整，请重新填写')
             return redirect(url_for('book'))
 
+#个人中心
 @app.route('/my_center/',methods = ['GET','POST'])
 def my_center():
     if request.method == 'GET':
@@ -105,6 +115,15 @@ def my_center():
         db.session.commit()
         flash('修改成功')
         return redirect(url_for('my_center'))
+
+#修改密码
+@app.route('/password', methods = ['GET', 'POST'])
+def password():
+    if request.method == 'GET':
+        return render_template('password.html')
+    else :
+        pass
+
 
 @app.context_processor
 def my_context():
