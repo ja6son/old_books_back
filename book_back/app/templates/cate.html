@@ -4,13 +4,41 @@
 <link rel="stylesheet" href="{{ url_for('static',filename='css/cate.css') }}">
 {% endblock %}
 {% block body %}
-<h1 class="text-center">{{ book_name }}类</h1><br>
-{% for book in books %}
-<div class="col-md-3 myfont">
-    <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded" style="width:100%">
-    <br><br>
-    <p class="text-left">书名： <em>{{ book.book_name }}</em></p>
-    <span class="text-left">价格： {{ book.fee }}</span><p class="text-right"><a>了解更多</a></p><br>
+<h1 class="text-center">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ book_name }}类</h1><br>
+<div class="col-md-2">
+    <ul class="nav nav-pills nav-stacked mydao">
+        {% if book_name == '人文社科' %}
+        <li role="presentation" class="active"><a href="{{ url_for('category', name='人文社科', page=1) }}">人文社科</a></li>
+        {% else %}
+        <li role="presentation"><a href="{{ url_for('category', name='人文社科', page=1) }}">人文社科</a></li>
+        {% endif %}
+        {% if book_name == '自然科学' %}
+        <li role="presentation" class="active"><a href="{{ url_for('category', name='自然科学', page=1) }}">自然科学</a></li>
+        {% else %}
+        <li role="presentation"><a href="{{ url_for('category', name='自然科学', page=1) }}">自然科学</a></li>
+        {% endif %}
+        {% if book_name == '计算机' %}
+        <li role="presentation" class="active"><a href="{{ url_for('category', name='计算机', page=1) }}">计算机</a></li>
+        {% else %}
+        <li role="presentation"><a href="{{ url_for('category', name='计算机', page=1) }}">计算机</a></li>
+        {% endif %}
+        {% if book_name == '教材' %}
+        <li role="presentation" class="active"><a href="{{ url_for('category', name='教材', page=1) }}">教材</a></li>
+        {% else %}
+        <li role="presentation"><a href="{{ url_for('category', name='教材', page=1) }}">教材</a></li>
+        {% endif %}
+      </ul>
 </div>
-{% endfor %}
+<div class="col-md-8 col-md-offset-1">
+    {% for book in books %}
+    <div class="col-md-3 myfont">
+        <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded myimg">
+        <br><br>
+        <p class="text-left">书名： <em>{{ book.book_name }}</em></p>
+        <span class="text-left">价格： {{ book.fee }}</span><p class="text-right"><a href="{{ url_for('detail',book_id=book.id) }}">详情</a></p><br>
+    </div>
+    {% endfor %}
+</div>
+
+
 {% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block title %}编辑{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/detail.css') }}">
+{% endblock %}
+{% block body %}
+<h1 class="text-center">编辑</h1>
+<div class="col-md-4">
+    <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded" style="width:100%">
+    <br><br><br><br><br>
+</div>
+<div class="col-md-6 col-md-offset-1">
+    <form action="" method="POST">
+        <div class="form-group has-success">
+            <label for="" class="control-label">书名:</label>
+            <input type="text" name="book_name" value="{{ book.book_name }}" class="form-control">
+        </div>
+        <div class="col-md-12 form-group">
+            <label>类型</label><br>
+            <label class="radio-inline">
+                <input type="radio" name="book_type" value="人文社科">人文社科
+            </label>
+            <label class="radio-inline">
+                <input type="radio" name="book_type" value="自然科学">自然科学
+            </label>
+            <label class="radio-inline">
+                    <input type="radio" name="book_type" value="计算机">计算机
+            </label> 
+            <label class="radio-inline">
+                    <input type="radio" name="book_type" value="教材" checked>教材
+            </label>  
+        </div>    
+        <div class="form-group has-success">
+            <label for="" class="control-label">价格:</label>
+            <input type="text" name="fee" value="{{ book.fee }}" class="form-control">
+        </div>
+        <label for="" class="control-label">简介</label>
+        <textarea name="content" cols="30" rows="10" class="form-control has-success form-group">{{ book.content }}</textarea>
+        <button type="submit" class="btn btn-primary btn-block">修改</button>
+    </form>
+    {% for message in get_flashed_messages() %}
+        <br><br>
+        <h3 class="text-center" ><mark style="color:red">{{ message }}</mark></h3>
+    {% endfor %}  
+    <br><br><br>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}搜索结果{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/cate.css') }}">
+{% endblock %}
+{% block body %}
+<div class="col-md-8 col-md-offset-2">
+        {% for book in books %}
+        <div class="col-md-3 myfont">
+            <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded myimg">
+            <br><br>
+            <p class="text-left">书名： <em>{{ book.book_name }}</em></p>
+            <span class="text-left">价格： {{ book.fee }}</span><p class="text-right"><a href="{{ url_for('detail',book_id=book.id) }}">详情</a></p>
+            
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

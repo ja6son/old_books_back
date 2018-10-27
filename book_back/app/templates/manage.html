@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}管理书籍{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/cate.css') }}">
+{% endblock %}
+{% block body %}
+<div class="col-md-8 col-md-offset-2">
+        {% for book in books %}
+        <div class="col-md-3 myfont">
+            <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded myimg">
+            <br><br>
+            <p class="text-left">书名： <em>{{ book.book_name }}</em></p>
+            <span class="text-left">价格： {{ book.fee }}</span><p class="text-right"><a href="{{ url_for('detail',book_id=book.id) }}">详情</a></p>
+            <a role="button" class="btn btn-primary" href="{{ url_for('edit', book_id = book.id) }}">编辑</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a role="button" class="btn btn-danger" href="{{ url_for('delete', book_id = book.id) }}">删除</a><br><br>
+        </div>
+        {% endfor %}
+</div>
+{% endblock %}

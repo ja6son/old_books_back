@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}详情{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/detail.css') }}">
+{% endblock %}
+{% block body %}
+<h1 class="text-center">详情</h1>
+<div class="col-md-4">
+    <img src="{{ '/static/images/'+ book.book_image }}" class="img-rounded" style="width:100%">
+    <br><br><br><br><br>
+</div>
+<div class="col-md-6 col-md-offset-1 myback">
+<h4>书名：{{ book.book_name }}</h4>
+<h4>类型：{{ book.book_type }}</h4>
+<h4>价格：{{ book.fee }}</h4>
+<h4>联系人：{{ book.user.user_name }}</h4>
+<h4>电话：{{ book.user.telephone }}</h4>
+<h4>QQ：{{ book.user.qq }}</h4>
+<h4>简介：</h4>
+<p class="myp">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ book.content }}</p>
+</div>
+{% endblock %}

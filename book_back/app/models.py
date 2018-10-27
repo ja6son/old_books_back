@@ -12,7 +12,6 @@ class User(db.Model):
     avatar = db.Column(db.String(128),default = "default_avatar.jpg")
     avatar_id = db.Column(db.Integer,default = 1)
     books = db.relationship('Book',backref = 'user')
-    comments = db.relationship('Comment',backref = 'user')
 
 class Book(db.Model):
     __tablename__ = 'book'
@@ -23,11 +22,5 @@ class Book(db.Model):
     content = db.Column(db.Text,nullable = False)
     book_image = db.Column(db.String(128),default = "default_book_image.jpg")
     user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    comments = db.relationship('Comment',backref = 'book')
 
-class Comment(db.Model):
-    __tablename__ = 'comment'
-    id = db.Column(db.Integer,primary_key = True,autoincrement = True)
-    content = db.Column(db.Text,nullable = False)
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    book_id = db.Column(db.Integer,db.ForeignKey('book.id'))
+

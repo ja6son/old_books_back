@@ -1,7 +1,7 @@
 import config,os
 from flask import Flask,render_template,request,redirect,url_for,flash,session
 from exts import db
-from models import User,Book,Comment
+from models import User,Book
 from decorators import login_judge
 
 
@@ -149,10 +149,70 @@ def password():
 @app.route('/category/<name>/<page>')
 def category(name,page):
     page = request.args.get('page', 1)
-    per_page = 9
+    per_page = 8
     pagination = Book.query.filter(Book.book_type == name).paginate(page, per_page = per_page)
     books = pagination.items
     return render_template('cate.html', books = books, pagination = pagination ,book_name = name)
+
+#书的详情
+@app.route('/detail/<book_id>')
+def detail(book_id):
+    book = Book.query.filter(Book.id == book_id).first()
+    return render_template('detail.html', book=book)
+
+#管理书籍
+@app.route('/manage')
+@login_judge
+def manage():
+    user_id = session.get('user_id')
+    books = Book.query.filter(Book.user_id == user_id).all()
+    return render_template('manage.html', books = books)
+
+#删除书籍
+@app.route('/delete/<book_id>')
+def delete(book_id):
+    book = Book.query.filter(Book.id == book_id).first()
+    db.session.delete(book)
+    db.session.commit()
+    return redirect(url_for('manage'))
+
+#编辑书籍
+@app.route('/edit/<book_id>',methods = ['GET', 'POST'])
+def edit(book_id):
+    if request.method == 'GET':
+        book = Book.query.filter(Book.id == book_id).first()
+        return render_template('edit.html', book = book)
+    else :
+        book_name = request.form.get('book_name')
+        book_type = request.form.get('book_type')
+        fee = request.form.get('fee')
+        content = request.form.get('content')
+        if book_name and fee and content and book_type:
+            user_id = session.get('user_id')
+            user = User.query.filter(User.id == user_id).first()
+            book = Book.query.filter(Book.id == book_id).first()
+            book.book_name = book_name
+            book.book_type = book_type
+            book.fee = fee
+            book.content = content
+            db.session.commit()
+            flash('修改成功')
+            return redirect(url_for('edit', book_id=book_id))
+        else :
+            flash('填写不完整，请重新填写')
+            return redirect(url_for('edit', book_id=book_id))
+
+#搜索
+@app.route('/search', methods = ['POST'])
+def search():
+    sear = request.form.get('sear')
+    return redirect(url_for('content', sear=sear))
+#搜索内容
+
+@app.route('/content/<sear>')
+def content(sear):
+    books = Book.query.filter(Book.book_name.like( '%{}%'.format(sear) ))
+    return render_template('content.html', books=books)
 
 #传入用户对象
 @app.context_processor
@@ -163,8 +223,6 @@ def my_context():
         return {'user':user}
     else :
         return {}
-
-
 
 if __name__ == '__main__':
     app.run()
